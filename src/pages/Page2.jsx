@@ -3,17 +3,18 @@ import { Form , Input , Button , message} from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import { createProduct } from '../API/api.jsx';
 import { useState } from 'react';
-import './page2.css'
+import '../styles/page2.css';
+
 export const Page2 = ()=>{
     const location = useLocation();
     const navigate = useNavigate();
     const product = location.state;
     const [createdProduct, setCreatedProduct] = useState(null);
 
-
     const mutation = useMutation({
         mutationFn : createProduct,
         onSuccess : (data)=>{
+            data.image = product.image;
             setCreatedProduct(data);
             message.success("Product is created successfully");
         },
@@ -24,71 +25,84 @@ export const Page2 = ()=>{
 
     if(!product) 
         return <p>No product data. Go back and add a product.</p>
+
     return (
-  <div className="page2-container">
+      <div className="page2-wrapper">
 
-    {!createdProduct && (
-      <Form
-        layout="vertical"
-        initialValues={product}
-        onFinish={(values)=> mutation.mutate(values)}
-      >
-        <Form.Item label="Title" name="title">
-          <Input disabled/>
-        </Form.Item>
+        {!createdProduct && (
+          <div className="confirm-card">
+            <h2>Confirm Product Details</h2>
 
-        <Form.Item label="Price" name="price">
-          <Input disabled/>
-        </Form.Item>
+            <Form
+              layout="vertical"
+              initialValues={product}
+              onFinish={(values)=> mutation.mutate(values)}
+            >
+              <Form.Item label="Title" name="title">
+                <Input disabled />
+              </Form.Item>
 
-        <Form.Item label="Brand" name="brand">
-          <Input disabled/>
-        </Form.Item>
+              <Form.Item label="Price" name="price">
+                <Input disabled />
+              </Form.Item>
 
-        <Form.Item label="Category" name="category">
-          <Input disabled/>
-        </Form.Item>
+              <Form.Item label="Brand" name="brand">
+                <Input disabled />
+              </Form.Item>
 
-        <p className="confirm-text">
-          Are you sure you want to create this product?
-        </p>
+              <Form.Item label="Image URL" name="image">
+                <Input disabled />
+              </Form.Item>
 
-        <Button onClick={() => navigate("/")} style={{ marginRight: 10 , marginBottom : 10}}>
-          Cancel
-        </Button>
+              <Form.Item label="Category" name="category">
+                <Input disabled />
+              </Form.Item>
 
-        <Button 
-          type="primary"
-          htmlType="submit"
-          loading={mutation.isLoading}
-          block
-        >
-          Submit Product
-        </Button>
-      </Form>
-    )}
+              <p className="confirm-text">Are you sure you want to create this product?</p>
 
-    {createdProduct && (
-      <div className="created-box">
-        <h3>Product Created Successfully</h3>
+              <div className="btn-row">
+                <Button onClick={() => navigate("/")}>Cancel</Button>
 
-        <p><b>Title:</b> {createdProduct.title}</p>
-        <p><b>Price:</b> {createdProduct.price}</p>
-        <p><b>Brand:</b> {createdProduct.brand}</p>
-        <p><b>Category:</b> {createdProduct.category}</p>
+                <Button 
+                  type="primary"
+                  htmlType="submit"
+                  loading={mutation.isLoading}
+                >
+                  Submit Product
+                </Button>
+              </div>
+            </Form>
+          </div>
+        )}
 
-        <Button 
-          type="primary" 
-          onClick={() => navigate("/")}
-          block
-          style={{ marginTop: 20 }}
-        >
-          Go to Page 1
-        </Button>
+        {createdProduct && (
+          <div className="success-card">
+            <h2>Product Created Successfully</h2>
+            <img 
+              src={createdProduct.image} 
+              alt="product" 
+              style={{
+                width: "150px",
+                borderRadius: "10px",
+                marginBottom: "15px"
+              }}
+            />
+            <p><b>Title:</b> {createdProduct.title}</p>
+            <p><b>Price:</b> {createdProduct.price}</p>
+            <p><b>Brand:</b> {createdProduct.brand}</p>
+            <p><b>Category:</b> {createdProduct.category}</p>
+
+            <Button 
+              type="primary" 
+              onClick={() => navigate("/products")}
+              block
+              style={{ marginTop: 20 }}
+            >
+              Go to Products Page
+            </Button>
+          </div>
+        )}
+
       </div>
-    )}
-
-  </div>
-);
-
-}
+    );
+};

@@ -1,0 +1,28 @@
+.nav-container {
+  width: 100%;
+  padding: 18px 40px;
+  background: linear-gradient(90deg, #7b5cff, #a88cff);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.nav-links a {
+  margin-left: 25px;
+  font-size: 17px;
+  color: #f5eaff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255,255,255,0.7);
+}
