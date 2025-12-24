@@ -5,6 +5,7 @@ import { Input, Select, Table, Space, Button, Modal, Form } from 'antd';
 import { useQuery } from '@tanstack/react-query';
 import { fetchProducts } from '../API/api.jsx';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
 import '../styles/page1.css';
 
 export const Page1 = () => {
@@ -15,6 +16,13 @@ export const Page1 = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/login");
+  }
+  }, []);
+ 
   const disableEndDates = (current) => {
     return current && current <= startdate;
   };
@@ -93,15 +101,16 @@ export const Page1 = () => {
             dataSource={finalProducts}
             className="styled-table"
             columns={[
-              { 
+              {
                 title: "Image",
-                dataIndex: "thumbnail",
-                render: (_, record) => (
-                  <img 
-                    src={record.thumbnail || record.image} 
+                dataIndex: "imageUrl",
+                render: (imageUrl) => (
+                  <img
+                    src={imageUrl}
+                    alt="product"
                     className="product-img"
                   />
-                )
+                ),
               },
               { title: "Title", dataIndex: "title" },
               { title: "Price", dataIndex: "price" },
@@ -144,10 +153,10 @@ export const Page1 = () => {
 
           <Form.Item 
           label="Image URL" 
-          name="image"
+          name="imageUrl"
           rules={[{ required: true, message: "Please enter an image URL" }]}
         >
-          <Input placeholder="https://example.com/image.jpg" />
+          <Input />
         </Form.Item>
 
           <Button type="primary" htmlType="submit" block>

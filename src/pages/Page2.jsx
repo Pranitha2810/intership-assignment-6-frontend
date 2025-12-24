@@ -14,7 +14,7 @@ export const Page2 = ()=>{
     const mutation = useMutation({
         mutationFn : createProduct,
         onSuccess : (data)=>{
-            data.image = product.image;
+            data.imageUrl = product.imageUrl;
             setCreatedProduct(data);
             message.success("Product is created successfully");
         },
@@ -50,7 +50,7 @@ export const Page2 = ()=>{
                 <Input disabled />
               </Form.Item>
 
-              <Form.Item label="Image URL" name="image">
+              <Form.Item label="Image URL" name="imageUrl">
                 <Input disabled />
               </Form.Item>
 
@@ -79,7 +79,7 @@ export const Page2 = ()=>{
           <div className="success-card">
             <h2>Product Created Successfully</h2>
             <img 
-              src={createdProduct.image} 
+              src={createdProduct.imageUrl} 
               alt="product" 
               style={{
                 width: "150px",
