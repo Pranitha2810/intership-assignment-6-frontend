@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = "http://localhost:8080";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 // axios instance
 const api = axios.create({
@@ -24,7 +24,7 @@ export const registerUser = async (data) => {
 
 export const loginUser = async (data) => {
   const res = await api.post("/auth/login", data);
-  return res.data; // { token }
+  return res.data;
 };
 
 // ---------------- PRODUCTS ----------------
@@ -36,9 +36,9 @@ export const fetchProducts = async () => {
   return res.data;
 };
 
-
 export const createProduct = async (data) => {
   const res = await api.post("/products/add", data);
   return res.data;
 };
+
 
